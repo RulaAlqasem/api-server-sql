@@ -7,8 +7,8 @@
 
 ### Links and Resources
 
-- [GitHub Actions]()
-- [Pull Request]()
+- [GitHub Actions](https://github.com/RulaAlqasem/api-server/actions)
+- [Pull Request](https://github.com/RulaAlqasem/api-server/pull/1)
 - [HEROKU App]()
 
 ### Setup

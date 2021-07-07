@@ -6,10 +6,9 @@
 ### Author: Rula alqasem
 
 ### Links and Resources
-
-- [GitHub Actions](https://github.com/RulaAlqasem/api-server/actions)
-- [Pull Request](https://github.com/RulaAlqasem/api-server/pull/1)
-- [HEROKU App]()
+- [repo link](https://github.com/RulaAlqasem/api-server-sql)
+- [Pull Request](https://github.com/RulaAlqasem/api-server-sql/pull/1)
+- [HEROKU App](https://rula-api-server-sql.herokuapp.com/)
 
 ### Setup
 

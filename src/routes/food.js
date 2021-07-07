@@ -1,10 +1,16 @@
 'use strict';
+
 const express = require('express');
 const router = express.Router();
-const FoodModel = require('../models/food');
-const Interface = require('../models/data-collection-class');
-const Food = new Interface(FoodModel);
 
+const foodModel = require('../models/food.js');
+const DataCollection = require('../models/data-collection-class');
+
+const foods = new DataCollection(foodModel);
+
+
+
+// routes
 router.get('/', getFood);
 router.get('/:id', getFood);
 router.post('/', createFood);
@@ -13,40 +19,45 @@ router.delete('/:id', deleteFood);
 
 async function getFood(req, res, next) {
   try {
-    const id = req.params.id;
-    const food = await Food.read(id);
-    res.json({ food });
-  } catch (e) {
+
+    const resObj = await foods.read(req.params.id);
+    res.json({ resObj: resObj.rows });
+
+  }
+
+  catch (e) {
     next(e);
   }
 }
 
 async function createFood(req, res, next) {
   try {
-    const data = req.body;
-    const newFood = await Food.create(data);
-    res.json(newFood);
-  } catch (e) {
+    const resObj = await foods.create(req.body);
+    res.status(201).json({ resObj: resObj.rows[0] });
+  }
+  catch (e) {
     next(e);
   }
 }
 async function updateFood(req, res, next) {
   try {
-    const id = req.params.id;
-    const data = req.body;
-    const newFood = await Food.update(id, data);
-    res.json(newFood);
-  } catch (e) {
+    const resObj = await foods.update(req.params.id, req.body);
+    res.json({ resObj: resObj.rows[0] });
+  }
+  catch (e) {
     next(e);
   }
 }
+
+
 async function deleteFood(req, res, next) {
   try {
-    const id = req.params.id;
-    const deletedFood = await Food.delete(id);
-    res.json(deletedFood);
-  } catch (e) {
+    const resObj = await foods.delete(req.params.id);
+    res.json({ resObj: resObj.rows[0] });
+  }
+  catch (e) {
     next(e);
   }
 }
+
 module.exports = router;

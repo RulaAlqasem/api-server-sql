@@ -1,29 +1,53 @@
 'use strict';
 
+
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
-const notFoundHandler = require('./error-handlers/404');
-const errorHandler = require('./error-handlers/500');
+
+const error404 = require('./error-handlers/404');
+const error500 = require('./error-handlers/500');
+
+
+
 const app = express();
+
 const foodRouter = require('./routes/food');
-const clothesRouter = require('./routes/clothes');
+
+
+
 app.use(express.json());
+app.use(morgan('combined'));
+
 app.use(cors());
 
 
-app.use('/api/v1/clothes', clothesRouter);
 app.use('/api/v1/food', foodRouter);
 
 
+
+
+
 app.get('/', (req, res) => {
-  res.send('Hello world');
+  res.send('Hello World In server');
 });
 
-app.use('*', notFoundHandler);
-app.use(errorHandler);
+app.get('/bad', (req, res) => {
+  throw new Error('Error');
+});
+
+
+
+app.use('*', error404);
+app.use(error500);
+
 module.exports = {
-  server: app,
-  start: (port) => {
-    app.listen(port, () => console.log(`Listening on ${port}`));
+  app: app,
+  start: (PORT) => {
+    app.listen(PORT, () => console.log(`Listening on ${PORT}`));
   },
 };
+
+
+
+

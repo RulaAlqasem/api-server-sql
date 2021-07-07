@@ -1,38 +1,25 @@
 {
-  "name": "api-server",
+  "name": "api-server-v4",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "@code-fellows/supergoose": "^1.1.0",
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "init": "^0.1.2",
-    "mongoose": "^5.13.0",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "jest": "^27.0.6",
-    "super": "^0.2.3",
-    "supertest": "^6.1.3",
-    "test": "^0.6.0"
-  },
   "scripts": {
     "start": "node index.js",
-    "watch": "nodemon index.js",
-    "test-watch": "jest --watchAll",
     "test": "jest --coverage --verbose"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RulaAlqasem/api-server.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RulaAlqasem/api-server/issues"
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.6.0"
   },
-  "homepage": "https://github.com/RulaAlqasem/api-server#readme"
+  "devDependencies": {
+    "@code-fellows/supergoose": "^1.1.0",
+    "jest": "^27.0.6"
+  }
 }

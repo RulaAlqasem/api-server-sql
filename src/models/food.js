@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 
 
 const foodSchema = mongoose.Schema({
-  type: { type: String, required: true },
-  price: { type: String }
-})
+  name: { type: String, required: true },
+  price: { type: String },
+});
 
-const foodModel = mongoose.model('food', foodSchema)
+const foodModel = mongoose.model('foods', foodSchema);
 
 module.exports = foodModel;

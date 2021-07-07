@@ -1,106 +1,72 @@
-const { server } = require('../src/server')
-const supertest = require('supertest');
-const mockreq = supertest(server);
-
+'use strict';
+const server = require('../src/server');
+//const supertest=require('supertest');
 const supergoose = require('@code-fellows/supergoose');
 
-const mockRequest = supergoose(server);
 const request = supergoose(server.app);
 
+describe('api-server', () => {
 
 
-describe('API SERVER', () => {
-  let id;
-  it('can create a new food', async () => {
-    let foodObj = { type: 'test', price: 'test' };
-    const res = await mockRequest.post('/api/v1/food/').send(foodObj);
+  it(' get status 404 for bad route', async () => {
+    const response = await request.get('/foo');
+    expect(response.status).toBe(404);
 
-    expect(res.status).toBe(200)
-  });
-  it('can get a food after creation', async () => {
-    let foodObj = { type: 'test', price: 'test' };
-    const res = await mockRequest.get('/api/v1/food');
-    expect(res.body.food[0].type).toBe(foodObj.type);
-    expect(res.body.food[0].price).toBe(foodObj.price);
-    id = res.body.food[0]._id;
-    expect(res.body.food.length).toBe(1);
-    expect(res.status).toBe(200)
   });
 
-  it('can edite a new food', async () => {
-    let foodObj = { type: 'test', price: 'test' };
-
-    const res2 = await mockRequest.put(`/api/v1/food/${id}`).send(foodObj);
-
-    expect(res2.status).toBe(200)
-  });
-
-  it('can delete a new food', async () => {
-
-    const res = await mockRequest.delete(`/api/v1/food/${id}`);
-
-    expect(res.status).toBe(200)
+  it(' get status 404 for bad method ', async () => {
+    const response2 = await request.post('/food');
+    expect(response2.status).toBe(404);
   });
 
 });
 
-describe('api server', (req, res) => {
-
-  test('id unvalid', async () => {
-
-    const response = await mockreq.get(`/api/v1/food/`);
-
-    expect(response.status).toBe(200)
-  })
-
-  it('id unvalid', async () => {
-
-    const response = await mockreq.get(`/api/v1/food/ttt`);
-
-    expect(response.status).toBe(500)
-  })
-  it('bad', async () => {
-
-    const response = await mockreq.get(`/bad`);
-
-    expect(response.status).toBe(404)
-  })
 
 
-})
+describe('food ', () => {
+  let id;
+  it(' create a new food using POST', async () => {
 
+    let food = {
+      objName: 'apple',
+      objPrice: '2',
+    };
 
-describe('API SERVER', () => {
-  let id2;
-  it('can create a new clothes', async () => {
-    let clothesObj = { type: 'test', price: 'test' };
-    const res = await mockRequest.post('/api/v1/clothes/').send(clothesObj);
+    const response = await request.post('/api/v1/food').send(food);
 
-    expect(res.status).toBe(200)
+    expect(response.status).toEqual(201);
+    expect(response.body.resObj.objname).toEqual('apple');
+    expect(response.body.resObj.objprice).toEqual('2');
+    id = response.body.resObj.id;
   });
-  it('can get a clothes after creation', async () => {
-    let clothesObj = { type: 'test', price: 'test' };
-    const res = await mockRequest.get('/api/v1/clothes');
-    expect(res.body.clothes[0].type).toBe(clothesObj.type);
-    expect(res.body.clothes[0].price).toBe(clothesObj.price);
-    id2 = res.body.clothes[0]._id;
-    expect(res.body.clothes.length).toBe(1);
-    expect(res.status).toBe(200)
+  it(' read a list of food  using GET', async () => {
+    const response = await request.get('/api/v1/food');
+    expect(response.body).toBeTruthy();
+
   });
 
-  it('can edite a new clothes', async () => {
-    let clothesObj = { type: 'test', price: 'test' };
-
-    const res2 = await mockRequest.put(`/api/v1/clothes/${id2}`).send(clothesObj);
-
-    expect(res2.status).toBe(200)
+  it('should read a food by id using GET', async () => {
+    const response = await request.get(`/api/v1/food/${id}`);
+    expect(response.body.resObj[0].objname).toEqual('apple');
+    expect(response.body.resObj[0].objprice).toEqual('2');
   });
+  it('Update a food using PUT', async () => {
+    let editFood = {
+      objName: 'banana',
+      objPrice: '2',
+    };
 
-  it('can delete a new clothes', async () => {
+    const response = await request.put(`/api/v1/food/${id}`)
+      .send(editFood);
+    expect(response.status).toEqual(200);
+    expect(response.body.resObj.objname).toEqual('banana');
+  });
+  it('delete a record using DELETE', async () => {
 
-    const res = await mockRequest.delete(`/api/v1/clothes/${id2}`);
+    const response = await request.delete(`/api/v1/food/${id}`);
 
-    expect(res.status).toBe(200)
+    expect(response.status).toEqual(200);
+
   });
 
 });
